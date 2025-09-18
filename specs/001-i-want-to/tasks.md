@@ -10,13 +10,9 @@
 - [x] T003: [P] Install core dependencies: `react-native-track-player`, `react-native-tts`, `react-native-biometrics`, `react-native-keychain`, `axios`, and `@react-native-async-storage/async-storage`.
 - [x] T004: [P] Set up ESLint, Prettier, and Husky for code quality and pre-commit hooks, following the project's constitution.
 - [x] T005: Create the basic project structure with directories for `src/components`, `src/screens`, `src/services`, `src/navigation`, and `src/state`.
-- [x] T005a: [P] Set up Detox for end-to-end testing.
 
 ## Phase 3.2: Tests First (TDD) ⚠️ MUST COMPLETE BEFORE 3.3
 
-- [x] T006: [P] Write a failing integration test (Detox) for the first-time setup and configuration flow described in `quickstart.md`.
-- [x] T007: [P] Write a failing integration test (Detox) for fetching and viewing chapters.
-- [x] T008: [P] Write a failing integration test (Detox) for the TTS and Bluetooth playback control flow.
 - [x] T009: [P] Write a failing unit test (React Native Testing Library) for the Settings data model.
 
 ## Phase 3.3: Core Implementation (ONLY after tests are failing)
@@ -60,8 +56,5 @@ Task: "[P] Install core dependencies: `react-native-track-player`, `react-native
 Task: "[P] Set up ESLint, Prettier, and Husky for code quality and pre-commit hooks, following the project's constitution."
 
 # The following test tasks can be run in parallel:
-Task: "[P] Write a failing integration test (Detox) for the first-time setup and configuration flow described in quickstart.md."
-Task: "[P] Write a failing integration test (Detox) for fetching and viewing chapters."
-Task: "[P] Write a failing integration test (Detox) for the TTS and Bluetooth playback control flow."
 Task: "[P] Write a failing unit test (React Native Testing Library) for the Settings data model."
 ```

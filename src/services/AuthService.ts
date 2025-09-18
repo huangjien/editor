@@ -4,7 +4,9 @@ import * as Keychain from 'react-native-keychain';
 const rnBiometrics = new ReactNativeBiometrics();
 
 export class AuthService {
-  static async checkBiometricSupport(): Promise<BiometryTypes | null> {
+  static async checkBiometricSupport(): Promise<
+    (typeof BiometryTypes)[keyof typeof BiometryTypes] | null
+  > {
     const { available, biometryType } = await rnBiometrics.isSensorAvailable();
     if (available && biometryType) {
       return biometryType;
@@ -41,7 +43,9 @@ export class AuthService {
     await Keychain.setGenericPassword(username, password);
   }
 
-  static async retrieveUserCredentials(): Promise<Keychain.Options | false> {
+  static async retrieveUserCredentials(): Promise<
+    Keychain.UserCredentials | false
+  > {
     return await Keychain.getGenericPassword();
   }
 

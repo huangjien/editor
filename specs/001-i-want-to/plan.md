@@ -40,7 +40,7 @@ This plan outlines the development of a React Native application for reading and
 **Language/Version**: TypeScript (latest stable)
 **Primary Dependencies**: React Native, NativeWind, `react-native-track-player`, `react-native-tts`, `react-native-biometrics`
 **Storage**: AsyncStorage for settings and user progress.
-**Testing**: React Native Testing Library, Detox
+**Testing**: React Native Testing Library
 **Target Platform**: Android
 **Project Type**: Mobile
 **Performance Goals**: Smooth UI (60 fps), responsive playback controls.

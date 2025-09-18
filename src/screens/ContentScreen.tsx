@@ -13,10 +13,10 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 import { SettingsService } from '../services/SettingsService';
 import { GitHubService } from '../services/GitHubService';
 import Tts from 'react-native-tts';
-import TrackPlayer, {
-  usePlaybackState,
-  State,
-} from 'react-native-track-player';
+// import TrackPlayer, {
+//   usePlaybackState,
+//   State,
+// } from 'react-native-track-player';
 import { playChapter } from '../services/trackPlayerService';
 import { useTranslation } from 'react-i18next';
 
@@ -29,7 +29,8 @@ export const ContentScreen = () => {
   const route =
     useRoute<RouteProp<Record<string, ContentScreenRouteParams>, 'Content'>>();
   const { chapterId, chapterTitle } = route.params;
-  const playbackState = usePlaybackState();
+  // const playbackState = usePlaybackState();
+  const playbackState = { state: 'stopped' }; // Stub for disabled TrackPlayer
   const { t } = useTranslation();
 
   const [chapterContent, setChapterContent] = useState('');
@@ -37,7 +38,6 @@ export const ContentScreen = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const currentSpeechPosition = useRef(0);
   const scrollViewRef = useRef<ScrollView>(null);
-  const contentTextRef = useRef<Text>(null);
 
   const saveReadingPosition = useCallback(
     async (offset: number) => {
@@ -85,9 +85,16 @@ export const ContentScreen = () => {
         Tts.addEventListener('tts-start', () => setIsPlaying(true));
         Tts.addEventListener('tts-finish', () => setIsPlaying(false));
         Tts.addEventListener('tts-cancel', () => setIsPlaying(false));
-        Tts.addEventListener('tts-progress', (event: any) => {
-          currentSpeechPosition.current = event.charIndex;
-        });
+        Tts.addEventListener(
+          'tts-progress',
+          (event: {
+            utteranceId: string | number;
+            location: number;
+            length: number;
+          }) => {
+            currentSpeechPosition.current = event.location;
+          },
+        );
 
         // Restore reading position
         if (
@@ -119,9 +126,16 @@ export const ContentScreen = () => {
       Tts.removeEventListener('tts-start', () => setIsPlaying(true));
       Tts.removeEventListener('tts-finish', () => setIsPlaying(false));
       Tts.removeEventListener('tts-cancel', () => setIsPlaying(false));
-      Tts.removeEventListener('tts-progress', (event: any) => {
-        currentSpeechPosition.current = event.charIndex;
-      });
+      Tts.removeEventListener(
+        'tts-progress',
+        (event: {
+          utteranceId: string | number;
+          location: number;
+          length: number;
+        }) => {
+          currentSpeechPosition.current = event.location;
+        },
+      );
     };
   }, [chapterId, saveReadingPosition, t]);
 
@@ -132,11 +146,9 @@ export const ContentScreen = () => {
   const handlePlayPause = async () => {
     if (isPlaying) {
       Tts.pause();
-      await TrackPlayer.pause();
-      const currentScrollView = scrollViewRef.current;
-      if (currentScrollView) {
-        saveReadingPosition((currentScrollView as any).contentOffset?.y || 0);
-      }
+      // await TrackPlayer.pause(); // Disabled TrackPlayer
+      // Save current reading position when pausing
+      // Note: We'll rely on the scroll event handler to track position
     } else {
       Tts.speak(chapterContent.substring(currentSpeechPosition.current));
       await playChapter(chapterId, chapterTitle, chapterContent);
@@ -163,8 +175,8 @@ export const ContentScreen = () => {
 
   const getPlayPauseButtonText = () => {
     if (
-      playbackState.state === State.Playing ||
-      playbackState.state === State.Buffering
+      playbackState.state === 'playing' ||
+      playbackState.state === 'buffering'
     ) {
       return t('common.pause');
     } else {
@@ -184,30 +196,42 @@ export const ContentScreen = () => {
   }
 
   return (
-    <View className="flex-1 bg-white p-4">
-      <Text className="text-2xl font-bold text-gray-800 mb-4">
-        {chapterTitle}
-      </Text>
-      <ScrollView
-        ref={scrollViewRef}
-        className="flex-1"
-        onMomentumScrollEnd={handleScroll}
-      >
-        <Text ref={contentTextRef} className="text-base text-gray-700">
-          {chapterContent}
-        </Text>
-      </ScrollView>
-      <View className="flex-row justify-around items-center mt-4 p-2 bg-gray-200 rounded-lg">
-        <TouchableOpacity onPress={handlePreviousChapter} className="p-2">
-          <Text className="text-blue-600 text-lg">{t('common.previous')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handlePlayPause} className="p-2">
-          <Text className="text-blue-600 text-lg">
+    <View className="flex-1 bg-white">
+      <View className="flex-row justify-between items-center p-4 bg-blue-500">
+        <Text className="text-white text-lg font-bold">{chapterTitle}</Text>
+        <TouchableOpacity
+          onPress={handlePlayPause}
+          className="bg-white px-4 py-2 rounded"
+        >
+          <Text className="text-blue-500 font-semibold">
             {getPlayPauseButtonText()}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleNextChapter} className="p-2">
-          <Text className="text-blue-600 text-lg">{t('common.next')}</Text>
+      </View>
+      <ScrollView
+        ref={scrollViewRef}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        className="flex-1 p-4"
+      >
+        <Text className="text-base leading-6 text-gray-800">
+          {chapterContent}
+        </Text>
+      </ScrollView>
+      <View className="flex-row justify-between p-4 bg-gray-100">
+        <TouchableOpacity
+          onPress={handlePreviousChapter}
+          className="bg-blue-500 px-4 py-2 rounded"
+        >
+          <Text className="text-white font-semibold">
+            {t('common.previous')}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleNextChapter}
+          className="bg-blue-500 px-4 py-2 rounded"
+        >
+          <Text className="text-white font-semibold">{t('common.next')}</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -5,6 +5,7 @@
  * @format
  */
 
+import './global.css';
 import {
   StatusBar,
   StyleSheet,
@@ -39,9 +40,13 @@ function App() {
   if (isLoadingAuth) {
     return (
       <SafeAreaProvider>
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#0000ff" />
-          <Text>{t('authenticating')}</Text>
+        <View style={styles.loadingContainer} testID="loading_screen">
+          <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            testID="loading_indicator"
+          />
+          <Text testID="loading_text">{t('authenticating')}</Text>
         </View>
       </SafeAreaProvider>
     );
@@ -50,8 +55,8 @@ function App() {
   if (!isAuthenticated) {
     return (
       <SafeAreaProvider>
-        <View style={styles.loadingContainer}>
-          <Text>{t('authentication_failed')}</Text>
+        <View style={styles.loadingContainer} testID="auth_failed_screen">
+          <Text testID="auth_failed_text">{t('authentication_failed')}</Text>
         </View>
       </SafeAreaProvider>
     );
@@ -60,7 +65,9 @@ function App() {
   return (
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppNavigator />
+      <View style={styles.container} testID="main_app">
+        <AppNavigator />
+      </View>
     </SafeAreaProvider>
   );
 }

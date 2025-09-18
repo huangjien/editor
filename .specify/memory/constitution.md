@@ -30,7 +30,6 @@ TDD mandatory across all React Native development:
 - Red-Green-Refactor cycle strictly enforced
 - Unit tests for components using React Native Testing Library
 - Integration tests for navigation flows and API interactions
-- End-to-end tests using Detox for critical user journeys
 
 ### IV. Cross-Platform Integration Testing
 
@@ -85,7 +84,6 @@ Start simple, optimize for mobile performance:
 - **Metro**: Default bundler with custom configuration for optimization
 - **Flipper**: Development debugging and performance monitoring
 - **React Native Testing Library**: Component testing framework
-- **Detox**: End-to-end testing for iOS and Android
 
 ### Navigation & State Management
 

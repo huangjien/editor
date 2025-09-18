@@ -23,14 +23,14 @@ const resources = {
 };
 
 const languageDetector = {
-  type: 'languageDetector',
+  type: 'languageDetector' as const,
   async: true, // flags below detection to be async
   detect: (callback: (lang: string) => void) => {
     const locales = RNLocalize.getLocales();
-    if (locales && locales.length > 0) {
-      callback(locales[0].languageCode);
+    if (locales.length > 0) {
+      callback(locales[0].languageTag);
     } else {
-      callback('en'); // Fallback if no locale is detected
+      callback('en');
     }
   },
   init: () => {},
@@ -38,12 +38,12 @@ const languageDetector = {
 };
 
 i18n
-  .use(languageDetector as any) // Cast to any due to custom languageDetector type
+  .use(languageDetector)
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     resources,
     fallbackLng: 'en',
-    compatibilityJSON: 'v3',
+    compatibilityJSON: 'v4',
     interpolation: {
       escapeValue: false, // react already safes from xss
     },

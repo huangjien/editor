@@ -7,23 +7,17 @@ import {
   Alert,
   TouchableOpacity,
 } from 'react-native';
-import { styled } from 'nativewind';
 import { SettingsService } from '../services/SettingsService';
 import { GitHubService } from '../services/GitHubService';
 import { Chapter } from '../state/models';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-
-const StyledView = styled(View);
-const StyledText = styled(Text);
-const StyledFlatList = styled(FlatList);
-const StyledActivityIndicator = styled(ActivityIndicator);
-const StyledTouchableOpacity = styled(TouchableOpacity);
+import { RootStackParamList } from '../types/navigation';
 
 export const IndexScreen = () => {
   const [chapters, setChapters] = useState<Chapter[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -63,30 +57,30 @@ export const IndexScreen = () => {
 
   if (isLoading) {
     return (
-      <StyledView className="flex-1 items-center justify-center bg-white">
-        <StyledActivityIndicator size="large" color="#0000ff" />
-        <StyledText className="mt-2 text-gray-600">
+      <View className="flex-1 items-center justify-center bg-white">
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text className="mt-2 text-gray-600">
           {t('common.loading_chapters')}
-        </StyledText>
-      </StyledView>
+        </Text>
+      </View>
     );
   }
 
   return (
-    <StyledView className="flex-1 bg-white p-4">
-      <StyledText className="text-2xl font-bold text-gray-800 mb-4">
+    <View className="flex-1 bg-white p-4">
+      <Text className="text-2xl font-bold text-gray-800 mb-4">
         {t('common.chapters')}
-      </StyledText>
+      </Text>
       {chapters.length === 0 ? (
-        <StyledText className="text-center text-gray-600">
+        <Text className="text-center text-gray-600">
           {t('common.no_chapters_found')}
-        </StyledText>
+        </Text>
       ) : (
-        <StyledFlatList
+        <FlatList
           data={chapters}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <StyledTouchableOpacity
+            <TouchableOpacity
               className="p-4 border-b border-gray-200"
               onPress={() =>
                 navigation.navigate('Content', {
@@ -95,13 +89,11 @@ export const IndexScreen = () => {
                 })
               }
             >
-              <StyledText className="text-lg text-gray-700">
-                {item.title}
-              </StyledText>
-            </StyledTouchableOpacity>
+              <Text className="text-lg text-gray-700">{item.title}</Text>
+            </TouchableOpacity>
           )}
         />
       )}
-    </StyledView>
+    </View>
   );
 };
