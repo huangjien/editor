@@ -1,6 +1,6 @@
 # Research & Decisions
 
-This document outlines the technical decisions made to resolve ambiguities and define the technology stack for the Modern Fleet Android App, incorporating the request to use Tailwind CSS.
+This document outlines the technical decisions made to resolve ambiguities and define the technology stack for the Modern Fleet Android App, incorporating the request to use Tailwind CSS and CI/CD.
 
 ## 1. Local Identity and Security
 
@@ -24,10 +24,21 @@ This document outlines the technical decisions made to resolve ambiguities and d
   - **Rationale**: This is a comprehensive audio library for React Native that handles background playback, media controls (including Bluetooth), and audio focus management out of the box. This addresses `FR-005` and the implicit requirement for audio focus management.
 - **Storage**: **AsyncStorage**
   - **Rationale**: As specified in the constitution, AsyncStorage will be used for persisting settings (`FR-001`, `FR-006`, `FR-007`) and the current reading location (`FR-010`).
-- **Testing**: **React Native Testing Library**
-  - **Rationale**: This aligns with the constitution's mandate for a test-first development approach, covering unit testing.
+- **Testing**: **React Native Testing Library** and **Detox**
+  - **Rationale**: This aligns with the constitution's mandate for a test-first development approach, covering both unit and end-to-end testing.
 
 ## 3. Constitutional Adherence
 
 - **Decision**: The project will adhere to the constitution by using React Native.
 - **Rationale**: The user's request to use Tailwind CSS makes React Native a more suitable choice than a fully native implementation. This aligns the project with the established constitutional guidelines.
+
+## 4. CI/CD with GitHub Actions
+
+- **Decision**: Implement CI/CD using GitHub Actions for automated builds, testing, and release management.
+- **Rationale**: The user explicitly requested GitHub Actions for CI/CD. This will automate the process of generating the Android APK, renaming it to `editor.apk`, and publishing it to GitHub Releases.
+- **Key Steps**:
+    - Create a GitHub Actions workflow (`.github/workflows/android_build.yml`).
+    - Configure the workflow to build the Android APK.
+    - Add steps to rename the generated APK to `editor.apk`.
+    - Implement a step to publish the `editor.apk` to GitHub Releases upon successful build of a specific branch or tag.
+    - Securely manage GitHub token for releases.
