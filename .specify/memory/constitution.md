@@ -3,7 +3,9 @@
 ## Core Principles
 
 ### I. Library-First Architecture
+
 Every feature starts as a standalone, reusable library component. Libraries must be:
+
 - Self-contained with clear dependencies (React Native, Expo, or native modules)
 - Independently testable on iOS and Android simulators/devices
 - Documented with usage examples and API reference
@@ -11,7 +13,9 @@ Every feature starts as a standalone, reusable library component. Libraries must
 - Clear purpose required - no organizational-only libraries
 
 ### II. CLI Interface & Tooling
+
 Every library exposes functionality via CLI tools and development scripts:
+
 - Text in/out protocol: stdin/args → stdout, errors → stderr
 - Support JSON + human-readable formats for data exchange
 - Metro bundler integration for development and production builds
@@ -19,7 +23,9 @@ Every library exposes functionality via CLI tools and development scripts:
 - React Native CLI support for bare workflow projects
 
 ### III. Test-First Development (NON-NEGOTIABLE)
+
 TDD mandatory across all React Native development:
+
 - Tests written → User approved → Tests fail → Then implement
 - Red-Green-Refactor cycle strictly enforced
 - Unit tests for components using React Native Testing Library
@@ -27,7 +33,9 @@ TDD mandatory across all React Native development:
 - End-to-end tests using Detox for critical user journeys
 
 ### IV. Cross-Platform Integration Testing
+
 Focus areas requiring comprehensive integration testing:
+
 - iOS and Android platform-specific implementations
 - Native module contract tests and bridge communication
 - Navigation library integration (React Navigation, etc.)
@@ -36,7 +44,9 @@ Focus areas requiring comprehensive integration testing:
 - Device-specific features (camera, location, push notifications)
 
 ### V. Observability & Performance Monitoring
+
 Comprehensive monitoring and debugging capabilities:
+
 - Flipper integration for development debugging
 - React Native performance monitoring (Flipper, React DevTools)
 - Crash reporting integration (Crashlytics, Sentry)
@@ -45,7 +55,9 @@ Comprehensive monitoring and debugging capabilities:
 - Memory leak detection and performance profiling
 
 ### VI. Versioning & Platform Compatibility
+
 Strict version management for React Native ecosystem:
+
 - MAJOR.MINOR.PATCH semantic versioning
 - React Native version compatibility matrix maintenance
 - iOS/Android minimum version requirements documentation
@@ -54,7 +66,9 @@ Strict version management for React Native ecosystem:
 - Native dependency version locking and conflict resolution
 
 ### VII. Simplicity & Performance First
+
 Start simple, optimize for mobile performance:
+
 - YAGNI principles - avoid over-engineering mobile solutions
 - Bundle size optimization - code splitting and lazy loading
 - Native performance considerations - avoid unnecessary re-renders
@@ -65,6 +79,7 @@ Start simple, optimize for mobile performance:
 ## React Native Technology Stack
 
 ### Core Dependencies
+
 - **React Native**: Latest stable version with platform-specific considerations
 - **TypeScript**: Mandatory for type safety and better developer experience
 - **Metro**: Default bundler with custom configuration for optimization
@@ -73,12 +88,14 @@ Start simple, optimize for mobile performance:
 - **Detox**: End-to-end testing for iOS and Android
 
 ### Navigation & State Management
+
 - **React Navigation**: Primary navigation library with deep linking support
 - **Redux Toolkit** or **Zustand**: State management based on app complexity
 - **React Query/TanStack Query**: Server state management and caching
 - **AsyncStorage**: Local data persistence with encryption for sensitive data
 
 ### Development Workflow
+
 - **ESLint + Prettier**: Code formatting and linting with React Native rules
 - **Husky**: Git hooks for pre-commit testing and linting
 - **Fastlane**: Automated iOS and Android build and deployment
@@ -87,6 +104,7 @@ Start simple, optimize for mobile performance:
 ## Platform-Specific Requirements
 
 ### iOS Development
+
 - Xcode latest stable version compatibility
 - iOS deployment target minimum version documentation
 - App Store Connect integration and submission requirements
@@ -94,6 +112,7 @@ Start simple, optimize for mobile performance:
 - TestFlight beta testing integration
 
 ### Android Development
+
 - Android Studio and Gradle version compatibility
 - Android API level minimum requirements
 - Google Play Console integration and submission requirements
@@ -105,6 +124,7 @@ Start simple, optimize for mobile performance:
 This constitution supersedes all other development practices and must be followed for all React Native projects. All pull requests and code reviews must verify compliance with these principles.
 
 Amendments require:
+
 - Documentation of proposed changes with React Native ecosystem impact analysis
 - Team approval with platform-specific testing validation
 - Migration plan for existing React Native projects

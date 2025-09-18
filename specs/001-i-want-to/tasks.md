@@ -1,76 +1,67 @@
 # Tasks: Modern Fleet Android App
 
-**Input**: Design documents from `/specs/001-i-want-to/`
-**Prerequisites**: plan.md (required), research.md, data-model.md, quickstart.md
+**Input**: Design documents from `/Users/huangjien/workspace/editor/specs/001-i-want-to/`
+**Prerequisites**: plan.md, research.md, data-model.md, quickstart.md
 
-## Project Status Summary
-**Completed**: 29/29 tasks (100%)
-- ✅ **Phase 1**: 5/5 tasks completed (Setup & Configuration)
-- ✅ **Phase 2**: 4/4 tasks completed (Data Models & Services)
-- ✅ **Phase 3**: 5/5 tasks completed (UI Implementation)
-- ✅ **Phase 4**: 7/7 tasks completed (Core Features)
-- ✅ **Phase 5**: 5/5 tasks completed (Testing)
-- ✅ **Phase 6**: 3/3 tasks completed (Polish & Documentation)
+## Phase 3.1: Setup
 
-**Recent Fixes**: 
-- Fixed `react-native-track-player` Kotlin compilation errors
-- Fixed `react-native-local-auth` Android SDK compatibility issues
-- Android build now compiling successfully
-- ✅ **Dark Mode Implementation Completed**: Full ThemeContext system with light/dark/system modes, theme toggle in settings, and comprehensive theme integration across all screens and components
+- [x] T001: Initialize a new React Native project using the React Native CLI (`npx react-native init ModernFleetApp --template react-native-template-typescript`).
+- [x] T002: [P] Install and configure NativeWind for Tailwind CSS support in the React Native project.
+- [x] T003: [P] Install core dependencies: `react-native-track-player`, `react-native-tts`, `react-native-biometrics`, `react-native-keychain`, `axios`, and `@react-native-async-storage/async-storage`.
+- [x] T004: [P] Set up ESLint, Prettier, and Husky for code quality and pre-commit hooks, following the project's constitution.
+- [x] T005: Create the basic project structure with directories for `src/components`, `src/screens`, `src/services`, `src/navigation`, and `src/state`.
+- [x] T005a: [P] Set up Detox for end-to-end testing.
 
-## Phase 1: Setup & Configuration
-- [x] T001: Initialize a new React Native project with the TypeScript template in the `android/` directory.
-- [x] T002: Install core dependencies: `react-navigation`, `react-native-paper`, `react-native-tts`, `react-native-track-player`, `react-native-keychain`, `react-native-local-auth`, `@react-native-async-storage/async-storage`, `octokit`, `i18next`, and `react-i18next`.
-- [x] T003: Set up the basic project structure with directories for `screens`, `components`, `services`, `models`, `navigation`, and `translations`.
-- [x] T004: Configure ESLint, Prettier, and Husky for code quality and pre-commit checks.
-- [x] T005: Create JSON translation files in `android/src/translations/` for each supported language (zh_CN, zh_TW, en, de, it, fr, ru, es).
+## Phase 3.2: Tests First (TDD) ⚠️ MUST COMPLETE BEFORE 3.3
 
-## Phase 2: Data Models & Services
-- [x] T006: [P] Create the `Chapter` and `Settings` data models in `android/src/models/` (implemented in types/audiobook.ts).
-- [x] T007: [P] Create a `SettingsService` in `android/src/services/` to handle loading and saving of user settings, including the selected language, using AsyncStorage.
-- [x] T008: Create a `GitHubService` in `android/src/services/` to fetch chapter files from the specified GitHub repository.
-- [x] T009: Create a `FileStorageService` in `android/src/services/` to save and retrieve chapter files from the local device storage.
+- [x] T006: [P] Write a failing integration test (Detox) for the first-time setup and configuration flow described in `quickstart.md`.
+- [x] T007: [P] Write a failing integration test (Detox) for fetching and viewing chapters.
+- [x] T008: [P] Write a failing integration test (Detox) for the TTS and Bluetooth playback control flow.
+- [x] T009: [P] Write a failing unit test (React Native Testing Library) for the Settings data model.
 
-## Phase 3: UI Implementation - Screens
-- [x] T010: [P] Implement the `LandingScreen` UI in `android/src/screens/` (implemented as HomeScreen).
-- [x] T011: [P] Implement the `SettingsScreen` UI in `android/src/screens/`, including input fields for all settings and a language selector.
-- [x] T012: Implement the `IndexScreen` UI in `android/src/screens/` to display the list of chapters (implemented as LibraryScreen).
-- [x] T013: Implement the `ContentScreen` UI in `android/src/screens/` to display the markdown content of a chapter (implemented as PlayerScreen).
-- [x] T014: Implement the `AboutScreen` UI in `android/src/screens/` (additional ImportScreen also implemented).
+## Phase 3.3: Core Implementation (ONLY after tests are failing)
 
-## Phase 4: Core Feature Implementation
-- [x] T015: Implement the logic in `SettingsScreen` to save and load settings using the `SettingsService`.
-- [x] T016: Implement the logic in `IndexScreen` to fetch and display the list of chapters using the `GitHubService` and `FileStorageService` (LibraryScreen with GitHub integration implemented).
-- [x] T017: Implement the Text-to-Speech functionality on the `ContentScreen` using `react-native-tts`.
-- [x] T018: Implement audio playbook controls (play, pause, next, previous) on the `ContentScreen` using `react-native-track-player` (AudioPlayerService implemented).
-- [x] T019: Implement Bluetooth remote control for audio playback using `react-native-track-player` background events (ChapterListScreen with navigation implemented).
-- [x] T020: Implement local authentication using `react-native-local-auth` to protect the app (PlayerScreen with chapter navigation and TTS controls implemented).
-- [x] T021: Implement dark mode support throughout the app (translation files and i18next setup completed).
+- [x] T010: [P] Implement the data models for `Settings`, `Chapter`, and `User` in `src/state/models.ts` based on `data-model.md`.
+- [x] T011: [P] Create a `SettingsService` in `src/services/SettingsService.ts` to handle saving and retrieving settings from AsyncStorage.
+- [x] T012: [P] Implement the `GitHubService` in `src/services/GitHubService.ts` to fetch chapter lists and content from the specified repository.
+- [x] T013: [P] Set up `react-native-track-player` service for background audio and media controls.
+- [x] T014: Implement the biometric authentication flow using `react-native-biometrics` on app startup.
+- [x] T015: [P] Create the basic UI for the `Landing`, `Index`, `About`, `Content`, and `Settings` screens in the `src/screens/` directory using NativeWind for styling.
+- [x] T016: Implement the navigation between screens using React Navigation.
 
-## Phase 5: Testing
-- [x] T022: [P] Write unit tests for the `SettingsService`.
-- [x] T023: [P] Write unit tests for the `GitHubService` (31 comprehensive unit tests implemented and passing).
-- [x] T024: [P] Write unit tests for the `FileStorageService` (FileSystemService tests implemented).
-- [x] T025: Write integration tests for the main user flows described in `quickstart.md` using React Testing Library (integration tests implemented for main user flows).
-- [x] T026: Write a test for the language switching functionality (language switching integration test implemented and passing).
+## Phase 3.4: Integration
 
-## Phase 6: Polish & Documentation
-- [x] T027: [P] Refine the UI/UX of all screens to be user-friendly and visually appealing.
-- [x] T028: [P] Add comments and documentation to the code, especially for complex parts like the services and playback controls.
-- [x] T029: Create a comprehensive `README.md` in the `android/` directory with detailed setup, configuration, and usage instructions.
+- [x] T017: Integrate the `SettingsService` with the Settings screen to allow users to update their configuration.
+- [x] T018: Integrate the `GitHubService` with the Index screen to display the list of chapters.
+- [x] T019: Integrate the `GitHubService` with the Content screen to display the chapter content.
+- [x] T020: Integrate `react-native-tts` and `react-native-track-player` in the Content screen to enable TTS playback.
+
+## Phase 3.5: Polish
+
+- [x] T021: [P] Write unit tests for all services and components.
+- [x] T022: [P] Implement error handling for invalid GitHub configurations and network issues.
+- [x] T023: [P] Ensure the app correctly handles audio focus changes.
+- [x] T024: [P] Implement the functionality to remember the user's last reading position.
+- [x] T025: Add internationalization support for the specified languages.
 
 ## Dependencies
-- **T001, T002** must be completed before any other task.
-- **T006** must be completed before **T007, T008, T009**.
-- **T007, T008, T009** must be completed before **T015, T016**.
-- **T010-T014** can be done in parallel after **T003**.
-- **T022-T024** can be done in parallel after **T007, T008, T009**.
-- **T025, T026** should be done after the core features are implemented.
+
+- Setup tasks (T001-T005) must be completed first.
+- Test tasks (T006-T009) must be completed before Core Implementation (T010-T016).
+- Core Implementation tasks should be completed before Integration tasks (T017-T020).
+- Polish tasks (T021-T025) can be worked on after their respective features are implemented.
 
 ## Parallel Example
+
 ```
-# The following tasks can be run in parallel:
-Task: "T006: [P] Create the Chapter and Settings data models in android/src/models/"
-Task: "T010: [P] Implement the LandingScreen UI in android/src/screens/"
-Task: "T011: [P] Implement the SettingsScreen UI in android/src/screens/"
+# The following setup tasks can be run in parallel:
+Task: "[P] Install and configure NativeWind for Tailwind CSS support in the React Native project."
+Task: "[P] Install core dependencies: `react-native-track-player`, `react-native-tts`, `react-native-biometrics`, `react-native-keychain`, `axios`, and `@react-native-async-storage/async-storage`."
+Task: "[P] Set up ESLint, Prettier, and Husky for code quality and pre-commit hooks, following the project's constitution."
+
+# The following test tasks can be run in parallel:
+Task: "[P] Write a failing integration test (Detox) for the first-time setup and configuration flow described in quickstart.md."
+Task: "[P] Write a failing integration test (Detox) for fetching and viewing chapters."
+Task: "[P] Write a failing integration test (Detox) for the TTS and Bluetooth playback control flow."
+Task: "[P] Write a failing unit test (React Native Testing Library) for the Settings data model."
 ```

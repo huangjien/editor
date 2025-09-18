@@ -1,36 +1,33 @@
-# Research for Modern Fleet Android App
+# Research & Decisions
 
-## UI Library
-- **Decision**: Use `react-native-paper` for a modern, Material Design-based UI.
-- **Rationale**: It provides a rich set of customizable components that are easy to use and visually appealing, fitting the "standing out" requirement. It's well-maintained and popular in the React Native community.
-- **Alternatives considered**: `react-native-elements`, `native-base`. `react-native-paper` was chosen for its strong Material Design implementation.
+This document outlines the technical decisions made to resolve ambiguities and define the technology stack for the Modern Fleet Android App, incorporating the request to use Tailwind CSS.
 
-## Local Storage
-- **Decision**: Use `AsyncStorage` for simplicity to store settings and chapter content.
-- **Rationale**: For the scope of this app, a full database like WatermelonDB or Realm is likely overkill. AsyncStorage provides a simple key-value store that is sufficient for caching text files and user preferences. If performance becomes an issue with a large number of chapters, this can be revisited.
-- **Alternatives considered**: `WatermelonDB`, `Realm`. These are more complex and better suited for applications with complex data relationships.
+## 1. Local Identity and Security
 
-## Text-to-Speech
-- **Decision**: Use `react-native-tts`.
-- **Rationale**: It's a popular, well-supported library that provides a simple API for text-to-speech on both iOS and Android.
-- **Alternatives considered**: Writing native modules, which would be more complex.
+- **Decision**: Use a third-party library like `react-native-keychain` for secure storage and `react-native-biometrics` for authentication.
+- **Rationale**: The requirement `FR-009` needs clarification on the type of protection. These libraries provide access to the underlying native biometric and keychain/keystore functionalities, offering a secure and user-friendly authentication experience on Android.
+- **Alternatives Considered**: Building a custom bridge to native modules was rejected due to complexity.
 
-## GitHub API Integration
-- **Decision**: Use `octokit/rest.js` or a simple `fetch` with a personal access token.
-- **Rationale**: For simply fetching file content, a direct `fetch` call to the GitHub API is sufficient. If more complex interactions are needed in the future, `octokit/rest.js` can be used.
-- **Alternatives considered**: None, as direct API access is the standard approach.
+## 2. Technology Stack
 
-## Bluetooth Control
-- **Decision**: Use `react-native-track-player`.
-- **Rationale**: This library is designed for audio playback and includes built-in support for background playback and remote controls (like Bluetooth devices and notifications).
-- **Alternatives considered**: `react-native-ble-plx` for more generic Bluetooth LE interaction, but it's too low-level for this use case.
+- **Language**: **TypeScript**
+  - **Rationale**: As mandated by the constitution, TypeScript will be used for type safety and improved developer experience.
+- **Framework**: **React Native**
+  - **Rationale**: The constitution specifies React Native. The user's request to use Tailwind CSS, a web technology, makes a web-based framework like React Native a suitable choice, as opposed to a fully native application.
+- **Styling**: **NativeWind**
+  - **Rationale**: To fulfill the user's request for Tailwind CSS, NativeWind will be used. It allows for Tailwind-like utility classes in a React Native environment, providing a familiar and efficient styling workflow.
+- **GitHub Integration**: **Axios** or **fetch**
+  - **Rationale**: Standard and reliable HTTP clients for making API calls to GitHub from a JavaScript environment.
+- **Text-to-Speech**: **`react-native-tts`**
+  - **Rationale**: This library provides a bridge to the native TTS engines on Android, allowing for control over speech rate and other parameters, meeting requirements `FR-004` and `FR-007`.
+- **Bluetooth Controls & Audio Focus**: **`react-native-track-player`**
+  - **Rationale**: This is a comprehensive audio library for React Native that handles background playback, media controls (including Bluetooth), and audio focus management out of the box. This addresses `FR-005` and the implicit requirement for audio focus management.
+- **Storage**: **AsyncStorage**
+  - **Rationale**: As specified in the constitution, AsyncStorage will be used for persisting settings (`FR-001`, `FR-006`, `FR-007`) and the current reading location (`FR-010`).
+- **Testing**: **React Native Testing Library** and **Detox**
+  - **Rationale**: This aligns with the constitution's mandate for a test-first development approach, covering both unit and end-to-end testing.
 
-## Local Authentication
-- **Decision**: Use `react-native-keychain` for storing the GitHub token securely and `react-native-local-auth` for biometric/PIN authentication.
-- **Rationale**: This combination provides a secure way to store sensitive data and protect access to the app.
-- **Alternatives considered**: Storing the token in AsyncStorage (less secure).
+## 3. Constitutional Adherence
 
-## Internationalization (i18n)
-- **Decision**: Use `i18next` with `react-i18next`.
-- **Rationale**: These are the standard libraries for i18n in React and React Native, with strong community support and documentation.
-- **Alternatives considered**: `react-native-localize`. `i18next` is more feature-rich.
+- **Decision**: The project will adhere to the constitution by using React Native.
+- **Rationale**: The user's request to use Tailwind CSS makes React Native a more suitable choice than a fully native implementation. This aligns the project with the established constitutional guidelines.

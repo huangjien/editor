@@ -8,17 +8,21 @@
 ---
 
 ## ⚡ Quick Guidelines
+
 - ✅ Focus on WHAT users need and WHY
 - ❌ Avoid HOW to implement (no tech stack, APIs, code structure)
 - 👥 Written for business stakeholders, not developers
 
 ### Section Requirements
+
 - **Mandatory sections**: Must be completed for every feature
 - **Optional sections**: Include only when relevant to the feature
 - When a section doesn't apply, remove it entirely (don't leave as "N/A")
 
 ### For AI Generation
+
 When creating this spec from a user prompt:
+
 1. **Mark all ambiguities**: Use [NEEDS CLARIFICATION: specific question] for any assumption you'd need to make
 2. **Don't guess**: If the prompt doesn't specify something (e.g., "login system" without auth method), mark it
 3. **Think like a tester**: Every vague requirement should fail the "testable and unambiguous" checklist item
@@ -32,12 +36,14 @@ When creating this spec from a user prompt:
 
 ---
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### Primary User Story
+
 As a user, I want to read and listen to novel chapters from a GitHub repository on my Android device, so I can enjoy my reading anywhere.
 
 ### Acceptance Scenarios
+
 1. **Given** the app is launched for the first time, **When** I go to the settings page, **Then** I should be able to input my GitHub token, repository, branch, and content folder.
 2. **Given** the app is configured with a valid GitHub repository, **When** I go to the index page, **Then** I should see a list of novel chapters.
 3. **Given** I have selected a chapter, **When** I am on the content page, **Then** I should be able to read the chapter content and use the text-to-speech feature to listen to it.
@@ -45,15 +51,17 @@ As a user, I want to read and listen to novel chapters from a GitHub repository 
 5. **Given** I am in the settings page, **When** I change the font, font size, or play speed, **Then** the changes should be reflected in the content page.
 
 ### Edge Cases
+
 - What happens when the GitHub token is invalid?
 - What happens when the repository or branch does not exist?
 - What happens when the content folder is empty or does not contain markdown files?
 - What happens when the device is offline?
 - How does the app handle malformed markdown files?
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
+
 - **FR-001**: System MUST allow users to configure GitHub repository settings (token, repo, branch, content folder).
 - **FR-002**: System MUST fetch and display a list of markdown files from the specified GitHub repository folder.
 - **FR-003**: System MUST display the content of a selected markdown file.
@@ -66,7 +74,8 @@ As a user, I want to read and listen to novel chapters from a GitHub repository 
 - **FR-010**: System MUST remember the user's current reading/playing location.
 - **FR-011**: System MUST support internationalization for the following languages: Chinese (Simplified and Traditional), English, German, Italian, French, Russian, and Spanish.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
+
 - **Chapter**: Represents a novel chapter with content.
 - **Settings**: Represents user-specific configurations like GitHub details, display preferences, and playback speed.
 - **User**: Represents the app user, with their identity managed by the local service.
@@ -74,15 +83,18 @@ As a user, I want to read and listen to novel chapters from a GitHub repository 
 ---
 
 ## Review & Acceptance Checklist
-*GATE: Automated checks run during main() execution*
+
+_GATE: Automated checks run during main() execution_
 
 ### Content Quality
+
 - [ ] No implementation details (languages, frameworks, APIs)
 - [ ] Focused on user value and business needs
 - [ ] Written for non-technical stakeholders
 - [ ] All mandatory sections completed
 
 ### Requirement Completeness
+
 - [ ] No [NEEDS CLARIFICATION] markers remain
 - [ ] Requirements are testable and unambiguous
 - [ ] Success criteria are measurable
