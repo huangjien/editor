@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
 
-npm run lint
+
 npx prettier --check ./src
+npm run lint
+npm run test
+npm version patch --no-git-tag-version && git add .
