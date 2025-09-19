@@ -358,6 +358,11 @@ export const ContentScreen = () => {
                 ? 'bg-primary-600 hover:bg-primary-700'
                 : 'bg-primary-500 hover:bg-primary-600'
             } shadow-sm`}
+            accessibilityRole="button"
+            accessibilityLabel={getPlayPauseButtonText()}
+            accessibilityHint={
+              isPlaying ? t('content.pauseHint') : t('content.playHint')
+            }
           >
             <Text className="text-white font-medium">
               {getPlayPauseButtonText()}
@@ -409,6 +414,9 @@ export const ContentScreen = () => {
                 ? 'bg-neutral-800 hover:bg-neutral-700'
                 : 'bg-neutral-100 hover:bg-neutral-200'
             } shadow-sm`}
+            accessibilityRole="button"
+            accessibilityLabel={t('content.previousChapter')}
+            accessibilityHint={t('content.previousChapterHint')}
           >
             <Icon
               name="play-skip-back"
@@ -425,6 +433,9 @@ export const ContentScreen = () => {
                 ? 'bg-red-600/20 hover:bg-red-600/30'
                 : 'bg-red-50 hover:bg-red-100'
             } shadow-sm`}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.stop')}
+            accessibilityHint={t('content.stopHint')}
           >
             <Icon
               name="stop"
@@ -441,6 +452,13 @@ export const ContentScreen = () => {
                 ? 'bg-primary-600 hover:bg-primary-700'
                 : 'bg-primary-500 hover:bg-primary-600'
             } shadow-lg`}
+            accessibilityRole="button"
+            accessibilityLabel={
+              isPlaying ? t('common.pause') : t('common.play')
+            }
+            accessibilityHint={
+              isPlaying ? t('content.pauseHint') : t('content.playHint')
+            }
           >
             <Icon
               name={isPlaying ? 'pause' : 'play'}
@@ -457,6 +475,9 @@ export const ContentScreen = () => {
                 ? 'bg-neutral-800 hover:bg-neutral-700'
                 : 'bg-neutral-100 hover:bg-neutral-200'
             } shadow-sm`}
+            accessibilityRole="button"
+            accessibilityLabel={t('content.nextChapter')}
+            accessibilityHint={t('content.nextChapterHint')}
           >
             <Icon
               name="play-skip-forward"
@@ -475,6 +496,11 @@ export const ContentScreen = () => {
                 ? 'bg-neutral-800 hover:bg-neutral-700'
                 : 'bg-neutral-100 hover:bg-neutral-200'
             } shadow-sm`}
+            accessibilityRole="button"
+            accessibilityLabel={t('content.playbackSpeed', {
+              speed: speechRate,
+            })}
+            accessibilityHint={t('content.speedToggleHint')}
           >
             <View className="flex-row items-center">
               <Icon

@@ -1,0 +1,133 @@
+name: Version Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'package.json'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate-version:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Get current version
+        id: current-version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $CURRENT_VERSION"
+
+      - name: Get previous version
+        id: previous-version
+        run: |
+          git checkout origin/main -- package.json
+          PREVIOUS_VERSION=$(node -p "require('./package.json').version")
+          echo "version=$PREVIOUS_VERSION" >> $GITHUB_OUTPUT
+          echo "Previous version: $PREVIOUS_VERSION"
+          git checkout HEAD -- package.json
+
+      - name: Validate semantic versioning
+        run: |
+          CURRENT="${{ steps.current-version.outputs.version }}"
+          PREVIOUS="${{ steps.previous-version.outputs.version }}"
+          
+          echo "Validating version change from $PREVIOUS to $CURRENT"
+          
+          # Check if version follows semantic versioning pattern
+          if ! echo "$CURRENT" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.-]+)?(\+[a-zA-Z0-9.-]+)?$'; then
+            echo "❌ Version $CURRENT does not follow semantic versioning format"
+            exit 1
+          fi
+          
+          # Check if version has been incremented
+          if [ "$CURRENT" = "$PREVIOUS" ]; then
+            echo "❌ Version has not been updated. Please increment the version in package.json"
+            exit 1
+          fi
+          
+          # Use Node.js to compare versions properly
+          node -e "
+            const semver = require('semver');
+            const current = '$CURRENT';
+            const previous = '$PREVIOUS';
+            
+            if (!semver.valid(current)) {
+              console.log('❌ Current version is not valid semver:', current);
+              process.exit(1);
+            }
+            
+            if (!semver.valid(previous)) {
+              console.log('❌ Previous version is not valid semver:', previous);
+              process.exit(1);
+            }
+            
+            if (!semver.gt(current, previous)) {
+              console.log('❌ Version must be greater than previous version');
+              console.log('Previous:', previous);
+              console.log('Current:', current);
+              process.exit(1);
+            }
+            
+            console.log('✅ Version validation passed');
+            console.log('Previous:', previous);
+            console.log('Current:', current);
+          "
+
+      - name: Check for existing release
+        id: check-existing
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ steps.current-version.outputs.version }}"
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "⚠️ Release v$VERSION already exists"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "✅ Release v$VERSION does not exist yet"
+          fi
+
+      - name: Comment on PR
+        if: steps.check-existing.outputs.exists == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `⚠️ **Version Conflict Warning**
+              
+              The version \`${{ steps.current-version.outputs.version }}\` in package.json already has a corresponding release.
+              
+              Please consider:
+              - Incrementing to a new version number
+              - Or if this is intentional, the existing release will be updated with new artifacts
+              
+              Current version: \`${{ steps.current-version.outputs.version }}\`
+              Previous version: \`${{ steps.previous-version.outputs.version }}\``
+            })
+
+      - name: Validation summary
+        run: |
+          echo "## Version Validation Summary"
+          echo "- Previous version: ${{ steps.previous-version.outputs.version }}"
+          echo "- Current version: ${{ steps.current-version.outputs.version }}"
+          echo "- Release exists: ${{ steps.check-existing.outputs.exists }}"
+          echo "- Validation: ✅ Passed"

@@ -38,25 +38,55 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x android/gradlew
 
+      - name: Extract version from package.json
+        id: package-version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
       - name: Build Android Release APK
         run: cd android && ./gradlew assembleRelease
 
-      - name: Rename APK
+      - name: Rename APK with version
         run: |
-          find android/app/build/outputs/apk/release -name 'app-release.apk' -exec mv {} android/app/build/outputs/apk/release/editor.apk \;
+          find android/app/build/outputs/apk/release -name 'app-release.apk' -exec mv {} android/app/build/outputs/apk/release/editor-v${{ steps.package-version.outputs.version }}.apk \;
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: editor-apk
-          path: android/app/build/outputs/apk/release/editor.apk
+          name: editor-v${{ steps.package-version.outputs.version }}-apk
+          path: android/app/build/outputs/apk/release/editor-v${{ steps.package-version.outputs.version }}.apk
 
-      - name: Create Release
+      - name: Check if release exists
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        id: check-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create v${{ github.run_number }} \
-            --title "Release v${{ github.run_number }}" \
-            --notes "Automated release from GitHub Actions" \
-            android/app/build/outputs/apk/release/editor.apk
+          if gh release view v${{ steps.package-version.outputs.version }} >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Release v${{ steps.package-version.outputs.version }} already exists"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Release v${{ steps.package-version.outputs.version }} does not exist"
+          fi
+
+      - name: Create Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.check-release.outputs.exists == 'false'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create v${{ steps.package-version.outputs.version }} \
+            --title "Release v${{ steps.package-version.outputs.version }}" \
+            --notes "Automated release from GitHub Actions - Version ${{ steps.package-version.outputs.version }}" \
+            android/app/build/outputs/apk/release/editor-v${{ steps.package-version.outputs.version }}.apk
+
+      - name: Upload to existing release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.check-release.outputs.exists == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload v${{ steps.package-version.outputs.version }} \
+            android/app/build/outputs/apk/release/editor-v${{ steps.package-version.outputs.version }}.apk \
+            --clobber

@@ -37,5 +37,16 @@
     "theme_dark": "Dark",
     "authenticating": "Authenticating...",
     "authentication_failed": "Authentication Failed. Please restart the app."
+  },
+  "content": {
+    "error": "Error",
+    "playbackError": "Failed to start playback. Please try again.",
+    "info": "Info",
+    "nextChapterNotAvailable": "Next chapter is not available.",
+    "previousChapterNotAvailable": "Previous chapter is not available."
+  },
+  "index": {
+    "title": "Welcome to editor",
+    "subtitle": "Your journey into novels begins here."
   }
 }
