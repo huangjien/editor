@@ -5,24 +5,23 @@
  * @format
  */
 
-import './global.css';
+import React, { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
+  Text,
+  View,
   StatusBar,
   StyleSheet,
-  useColorScheme,
-  View,
-  Text,
-  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import React, { useEffect, useState } from 'react';
+import { I18nextProvider, useTranslation } from 'react-i18next';
 import { AuthService } from './src/services/AuthService';
 import { AppNavigator } from './src/navigation/AppNavigator';
-import { I18nextProvider, useTranslation } from 'react-i18next';
 import i18n from './src/locales/i18n';
+import { ThemeProvider, useTheme } from './src/contexts/ThemeContext';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+function AppContent() {
+  const { isDark } = useTheme();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
   const { t } = useTranslation();
@@ -30,8 +29,13 @@ function App() {
   useEffect(() => {
     const authenticateUser = async () => {
       setIsLoadingAuth(true);
-      const success = await AuthService.authenticate();
-      setIsAuthenticated(success);
+      try {
+        const success = await AuthService.authenticate();
+        setIsAuthenticated(success);
+      } catch (error) {
+        console.error('Authentication failed:', error);
+        setIsAuthenticated(false);
+      }
       setIsLoadingAuth(false);
     };
     authenticateUser();
@@ -64,11 +68,21 @@ function App() {
 
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
       <View style={styles.container} testID="main_app">
         <AppNavigator />
       </View>
     </SafeAreaProvider>
+  );
+}
+
+function App() {
+  return (
+    <I18nextProvider i18n={i18n}>
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
+    </I18nextProvider>
   );
 }
 
@@ -83,10 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const WrappedApp = () => (
-  <I18nextProvider i18n={i18n}>
-    <App />
-  </I18nextProvider>
-);
-
-export default WrappedApp;
+export default App;

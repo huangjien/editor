@@ -7,11 +7,17 @@ export class AuthService {
   static async checkBiometricSupport(): Promise<
     (typeof BiometryTypes)[keyof typeof BiometryTypes] | null
   > {
-    const { available, biometryType } = await rnBiometrics.isSensorAvailable();
-    if (available && biometryType) {
-      return biometryType;
+    try {
+      const { available, biometryType } =
+        await rnBiometrics.isSensorAvailable();
+      if (available && biometryType) {
+        return biometryType;
+      }
+      return null;
+    } catch (error) {
+      console.warn('Biometric support check failed:', error);
+      return null;
     }
-    return null;
   }
 
   static async authenticate(): Promise<boolean> {
@@ -40,16 +46,31 @@ export class AuthService {
     username: string,
     password: string,
   ): Promise<void> {
-    await Keychain.setGenericPassword(username, password);
+    try {
+      await Keychain.setGenericPassword(username, password);
+    } catch (error) {
+      console.error('Failed to store credentials:', error);
+      throw error;
+    }
   }
 
   static async retrieveUserCredentials(): Promise<
     Keychain.UserCredentials | false
   > {
-    return await Keychain.getGenericPassword();
+    try {
+      return await Keychain.getGenericPassword();
+    } catch (error) {
+      console.error('Failed to retrieve credentials:', error);
+      return false;
+    }
   }
 
   static async resetUserCredentials(): Promise<void> {
-    await Keychain.resetGenericPassword();
+    try {
+      await Keychain.resetGenericPassword();
+    } catch (error) {
+      console.error('Failed to reset credentials:', error);
+      throw error;
+    }
   }
 }

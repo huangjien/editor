@@ -12,41 +12,48 @@ import ru from './ru.json';
 import es from './es.json';
 
 const resources = {
-  en: { translation: en.common },
-  zh: { translation: zh.common },
-  'zh-Hant': { translation: zhHant.common },
-  de: { translation: de.common },
-  it: { translation: it.common },
-  fr: { translation: fr.common },
-  ru: { translation: ru.common },
-  es: { translation: es.common },
+  en: { translation: en },
+  zh: { translation: zh },
+  'zh-Hant': { translation: zhHant },
+  de: { translation: de },
+  it: { translation: it },
+  fr: { translation: fr },
+  ru: { translation: ru },
+  es: { translation: es },
 };
 
 const languageDetector = {
   type: 'languageDetector' as const,
-  async: true, // flags below detection to be async
-  detect: (callback: (lang: string) => void) => {
+  async: false, // Make it synchronous to avoid initialization issues
+  detect: () => {
     const locales = RNLocalize.getLocales();
     if (locales.length > 0) {
-      callback(locales[0].languageTag);
-    } else {
-      callback('en');
+      return locales[0].languageTag;
     }
+    return 'en';
   },
   init: () => {},
   cacheUserLanguage: () => {},
 };
 
-i18n
-  .use(languageDetector)
-  .use(initReactI18next) // passes i18n down to react-i18next
-  .init({
-    resources,
-    fallbackLng: 'en',
-    compatibilityJSON: 'v4',
-    interpolation: {
-      escapeValue: false, // react already safes from xss
-    },
-  });
+const initI18n = () => {
+  return i18n
+    .use(languageDetector)
+    .use(initReactI18next) // passes i18n down to react-i18next
+    .init({
+      resources,
+      fallbackLng: 'en',
+      compatibilityJSON: 'v4',
+      interpolation: {
+        escapeValue: false, // react already safes from xss
+      },
+      react: {
+        useSuspense: false, // Disable suspense to prevent crashes
+      },
+    });
+};
+
+// Initialize immediately
+initI18n();
 
 export default i18n;

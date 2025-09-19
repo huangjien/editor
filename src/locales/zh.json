@@ -1,9 +1,9 @@
 {
   "common": {
-    "welcome": "欢迎来到现代舰队应用",
+    "welcome": "欢迎来到editor",
     "journey_begins": "您的阅读之旅从这里开始。",
     "chapters": "章节",
-    "about": "关于现代舰队应用",
+    "about": "关于editor",
     "version": "版本",
     "previous": "上一章",
     "play": "播放",
@@ -31,7 +31,11 @@
     "display_font": "显示字体",
     "font_size": "字体大小",
     "play_speed": "播放速度",
-    "authenticating": "正在认证...",
+    "theme": "主题",
+    "theme_system": "跟随系统",
+    "theme_light": "浅色",
+    "theme_dark": "深色",
+    "authenticating": "认证中...",
     "authentication_failed": "认证失败。请重启应用。"
   }
 }

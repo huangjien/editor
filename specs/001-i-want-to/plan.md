@@ -4,6 +4,7 @@
 **Input**: Feature specification from `/Users/huangjien/workspace/editor/specs/001-i-want-to/spec.md`
 
 ## Execution Flow (/plan command scope)
+
 ```
 1. Load feature spec from Input path
    → If not found: ERROR "No feature spec at {path}"
@@ -26,13 +27,16 @@
 ```
 
 **IMPORTANT**: The /plan command STOPS at step 7. Phases 2-4 are executed by other commands:
+
 - Phase 2: /tasks command creates tasks.md
 - Phase 3-4: Implementation execution (manual or via tools)
 
 ## Summary
+
 This plan outlines the development of a React Native application for reading and listening to novel chapters from a GitHub repository. The app will be built with TypeScript and styled using NativeWind (a Tailwind CSS-like library). It will feature secure local authentication, background audio playback with Bluetooth controls, and a customizable reading experience, adhering to the project's constitution. CI/CD will be implemented using GitHub Actions to automate Android APK generation, renaming it to `editor.apk`, and publishing it to GitHub Releases.
 
 ## Technical Context
+
 **Language/Version**: TypeScript (latest stable)
 **Primary Dependencies**: React Native, NativeWind, `react-native-track-player`, `react-native-tts`, `react-native-biometrics`
 **Storage**: AsyncStorage for settings and user progress.
@@ -45,13 +49,15 @@ This plan outlines the development of a React Native application for reading and
 **CI/CD**: GitHub Actions for automated Android APK build, renaming to `editor.apk`, and publishing to GitHub Releases.
 
 ## Constitution Check
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - **Adherence**: The project will use React Native, TypeScript, and the specified testing libraries, in full accordance with the constitution.
 
 ## Project Structure
 
 ### Documentation (this feature)
+
 ```
 specs/001-i-want-to/
 ├── plan.md              # This file (/plan command output)
@@ -63,6 +69,7 @@ specs/001-i-want-to/
 ```
 
 ### Source Code (repository root)
+
 ```
 # Option 3: Mobile + API (when "iOS/Android" detected)
 android/
@@ -80,10 +87,13 @@ src/
 **Structure Decision**: Option 3: Mobile App. The source code will follow a standard React Native project structure.
 
 ## Phase 0: Outline & Research
+
 1. **Extract unknowns from Technical Context** above:
+
    - All initial `NEEDS CLARIFICATION` markers have been resolved.
 
 2. **Generate and dispatch research agents**:
+
    - Research tasks were completed to define the technology stack for a React Native application using Tailwind CSS (NativeWind), including CI/CD with GitHub Actions.
 
 3. **Consolidate findings** in `research.md`:
@@ -92,18 +102,23 @@ src/
 **Output**: `research.md` with all `NEEDS CLARIFICATION` resolved.
 
 ## Phase 1: Design & Contracts
-*Prerequisites: research.md complete*
+
+_Prerequisites: research.md complete_
 
 1. **Extract entities from feature spec** → `data-model.md`:
+
    - `Settings`, `Chapter`, and `User` entities have been defined in `data-model.md`.
 
 2. **Generate API contracts** from functional requirements:
+
    - No external API contracts are needed. The `contracts` directory is created for potential future use.
 
 3. **Generate contract tests** from contracts:
+
    - Not applicable at this stage.
 
 4. **Extract test scenarios** from user stories:
+
    - Key user flows and acceptance criteria are documented in `quickstart.md`.
 
 5. **Update agent file incrementally** (O(1) operation):
@@ -112,9 +127,11 @@ src/
 **Output**: `data-model.md`, `/contracts/` directory, `quickstart.md`.
 
 ## Phase 2: Task Planning Approach
-*This section describes what the /tasks command will do - DO NOT execute during /plan*
+
+_This section describes what the /tasks command will do - DO NOT execute during /plan_
 
 **Task Generation Strategy**:
+
 - Load `.specify/templates/tasks-template.md` as base.
 - Generate tasks from the design artifacts (`data-model.md`, `quickstart.md`).
 - Create tasks for:
@@ -129,6 +146,7 @@ src/
   - Implementing CI/CD with GitHub Actions for Android APK build, renaming, and release.
 
 **Ordering Strategy**:
+
 - TDD order: Tests before implementation.
 - Dependency order: State Management → Services → Components → Screens.
 - CI/CD setup after core implementation and initial testing.
@@ -139,24 +157,27 @@ src/
 **IMPORTANT**: This phase is executed by the /tasks command, NOT by /plan.
 
 ## Phase 3+: Future Implementation
-*These phases are beyond the scope of the /plan command*
+
+_These phases are beyond the scope of the /plan command_
 
 **Phase 3**: Task execution (/tasks command creates `tasks.md`)
 **Phase 4**: Implementation (execute `tasks.md` following constitutional principles)
 **Phase 5**: Validation (run tests, execute `quickstart.md`, performance validation)
 
 ## Complexity Tracking
-*Fill ONLY if Constitution Check has violations that must be justified*
+
+_Fill ONLY if Constitution Check has violations that must be justified_
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| (None)    | -          | -                                   |
-
+| --------- | ---------- | ------------------------------------ |
+| (None)    | -          | -                                    |
 
 ## Progress Tracking
-*This checklist is updated during execution flow*
+
+_This checklist is updated during execution flow_
 
 **Phase Status**:
+
 - [ ] Phase 0: Research complete (/plan command)
 - [ ] Phase 1: Design complete (/plan command)
 - [ ] Phase 2: Task planning complete (/plan command - describe approach only)
@@ -165,10 +186,12 @@ src/
 - [ ] Phase 5: Validation passed
 
 **Gate Status**:
+
 - [ ] Initial Constitution Check: PASS
 - [ ] Post-Design Constitution Check: PASS
 - [x] All NEEDS CLARIFICATION resolved
 - [ ] Complexity deviations documented
 
 ---
-*Based on Constitution v3.0.0 - See `/.specify/memory/constitution.md`*
+
+_Based on Constitution v3.0.0 - See `/.specify/memory/constitution.md`_

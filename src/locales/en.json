@@ -1,9 +1,9 @@
 {
   "common": {
-    "welcome": "Welcome to Modern Fleet App",
+    "welcome": "Welcome to editor",
     "journey_begins": "Your journey into novels begins here.",
     "chapters": "Chapters",
-    "about": "About Modern Fleet App",
+    "about": "About editor",
     "version": "Version",
     "previous": "Previous",
     "play": "Play",
@@ -31,6 +31,10 @@
     "display_font": "Display Font",
     "font_size": "Font Size",
     "play_speed": "Play Speed",
+    "theme": "Theme",
+    "theme_system": "System",
+    "theme_light": "Light",
+    "theme_dark": "Dark",
     "authenticating": "Authenticating...",
     "authentication_failed": "Authentication Failed. Please restart the app."
   }

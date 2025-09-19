@@ -37,8 +37,8 @@ This document outlines the technical decisions made to resolve ambiguities and d
 - **Decision**: Implement CI/CD using GitHub Actions for automated builds, testing, and release management.
 - **Rationale**: The user explicitly requested GitHub Actions for CI/CD. This will automate the process of generating the Android APK, renaming it to `editor.apk`, and publishing it to GitHub Releases.
 - **Key Steps**:
-    - Create a GitHub Actions workflow (`.github/workflows/android_build.yml`).
-    - Configure the workflow to build the Android APK.
-    - Add steps to rename the generated APK to `editor.apk`.
-    - Implement a step to publish the `editor.apk` to GitHub Releases upon successful build of a specific branch or tag.
-    - Securely manage GitHub token for releases.
+  - Create a GitHub Actions workflow (`.github/workflows/android_build.yml`).
+  - Configure the workflow to build the Android APK.
+  - Add steps to rename the generated APK to `editor.apk`.
+  - Implement a step to publish the `editor.apk` to GitHub Releases upon successful build of a specific branch or tag.
+  - Securely manage GitHub token for releases.

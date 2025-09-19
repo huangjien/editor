@@ -6,6 +6,7 @@ export class Settings {
   displayFont: string = 'System';
   fontSize: number = 16;
   playSpeed: number = 1.0;
+  theme: 'system' | 'light' | 'dark' = 'system';
   currentChapterId?: string;
   currentReadingOffset: number = 0;
 }
