@@ -96,7 +96,10 @@ export const ContentScreen = () => {
         currentSettings.currentReadingOffset = offset;
         await SettingsService.saveSettings(currentSettings);
       } catch (error) {
-        console.error('Error saving reading position:', error);
+        // Only log error if component is still mounted
+        if (isMountedRef.current) {
+          console.error('Error saving reading position:', error);
+        }
       }
     },
     [chapterId],
@@ -195,12 +198,27 @@ export const ContentScreen = () => {
         scrollTimeoutRef.current = null;
       }
 
-      // Stop TTS and remove event listeners
-      Tts.stop();
-      Tts.removeEventListener('tts-start', ttsStartHandler);
-      Tts.removeEventListener('tts-finish', ttsFinishHandler);
-      Tts.removeEventListener('tts-cancel', ttsCancelHandler);
-      Tts.removeEventListener('tts-progress', ttsProgressHandler);
+      // Stop TTS and audio playback
+      try {
+        Tts.stop();
+        stopPlayback().catch(() => {
+          // Ignore errors during cleanup
+        });
+      } catch (error) {
+        // Ignore errors during cleanup
+        console.warn('Error during TTS cleanup:', error);
+      }
+
+      // Clean up TTS event listeners
+      try {
+        Tts.removeEventListener('tts-start', ttsStartHandler);
+        Tts.removeEventListener('tts-finish', ttsFinishHandler);
+        Tts.removeEventListener('tts-cancel', ttsCancelHandler);
+        Tts.removeEventListener('tts-progress', ttsProgressHandler);
+      } catch (error) {
+        // Ignore errors during cleanup
+        console.warn('Error removing TTS listeners:', error);
+      }
     };
   }, [
     chapterId,
@@ -213,7 +231,16 @@ export const ContentScreen = () => {
   ]);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    saveReadingPosition(event.nativeEvent.contentOffset.y);
+    if (!isMountedRef.current) return;
+
+    try {
+      saveReadingPosition(event.nativeEvent.contentOffset.y);
+    } catch (error) {
+      // Ignore errors during scroll handling if component is unmounted
+      if (isMountedRef.current) {
+        console.warn('Error handling scroll:', error);
+      }
+    }
   };
 
   const handlePlayPause = useCallback(async () => {

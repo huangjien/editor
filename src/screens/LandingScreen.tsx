@@ -104,7 +104,7 @@ export const LandingScreen = () => {
         </View>
 
         {/* Navigation Cards */}
-        <View className="w-full max-w-sm space-y-4">
+        <View className="w-full max-w-sm mx-auto mt-12 space-y-4">
           {navigationItems.map((item, _index) => (
             <TouchableOpacity
               key={item.route}
