@@ -19,6 +19,6 @@ describe('App', () => {
   it('has the expected component structure', () => {
     // Verify it's a function that can be used as a React component
     expect(App.length).toBe(0); // App component takes no props
-    expect(App.name).toBe('WrappedApp'); // The default export is WrappedApp
+    expect(App.name).toBe('App'); // The default export is App
   });
 });

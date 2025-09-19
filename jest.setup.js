@@ -92,6 +92,50 @@ jest.mock('react-native-tts', () => ({
   },
 }));
 
+// Mock react-native-audio-pro
+jest.mock('react-native-audio-pro', () => ({
+  __esModule: true,
+  AudioPro: {
+    setupPlayer: jest.fn().mockResolvedValue(undefined),
+    destroy: jest.fn().mockResolvedValue(undefined),
+    add: jest.fn().mockResolvedValue(undefined),
+    play: jest.fn().mockResolvedValue(undefined),
+    pause: jest.fn().mockResolvedValue(undefined),
+    stop: jest.fn().mockResolvedValue(undefined),
+    skipToNext: jest.fn().mockResolvedValue(undefined),
+    skipToPrevious: jest.fn().mockResolvedValue(undefined),
+    seekTo: jest.fn().mockResolvedValue(undefined),
+    getState: jest.fn().mockResolvedValue('stopped'),
+    getTrack: jest.fn().mockResolvedValue(null),
+    getProgress: jest.fn().mockResolvedValue({ position: 0, duration: 0 }),
+    reset: jest.fn().mockResolvedValue(undefined),
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+  },
+  AudioProState: {
+    None: 'none',
+    Stopped: 'stopped',
+    Paused: 'paused',
+    Playing: 'playing',
+    Ready: 'ready',
+    Buffering: 'buffering',
+    Connecting: 'connecting',
+  },
+  AudioProEventType: {
+    PlaybackState: 'playback-state',
+    PlaybackTrackChanged: 'playback-track-changed',
+    PlaybackProgressUpdated: 'playback-progress-updated',
+    PlaybackError: 'playback-error',
+    PlaybackQueueEnded: 'playback-queue-ended',
+  },
+  AudioProContentType: {
+    DASH: 'dash',
+    HLS: 'hls',
+    SmoothStreaming: 'smoothstreaming',
+    OTHER: 'other',
+  },
+}));
+
 jest.mock('react-native-biometrics', () => {
   const mockBiometrics = jest.fn().mockImplementation(() => ({
     isSensorAvailable: jest

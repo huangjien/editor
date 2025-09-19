@@ -1837,6 +1837,9 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
+  - react-native-track-player (4.1.2):
+    - React-Core
+    - SwiftAudioEx (= 1.1.0)
   - react-native-vector-icons-ionicons (12.3.0)
   - React-NativeModulesApple (0.81.4):
     - boost
@@ -2515,6 +2518,7 @@ PODS:
     - SocketRocket
     - Yoga
   - SocketRocket (0.7.1)
+  - SwiftAudioEx (1.1.0)
   - TextToSpeech (4.1.1):
     - React-Core
   - Yoga (0.0.0)
@@ -2563,6 +2567,7 @@ DEPENDENCIES:
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
   - react-native-biometrics (from `../node_modules/react-native-biometrics`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-track-player (from `../node_modules/react-native-track-player`)
   - "react-native-vector-icons-ionicons (from `../node_modules/@react-native-vector-icons/ionicons`)"
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-oscompat (from `../node_modules/react-native/ReactCommon/oscompat`)
@@ -2606,6 +2611,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - SocketRocket
+    - SwiftAudioEx
 
 EXTERNAL SOURCES:
   boost:
@@ -2693,6 +2699,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-biometrics"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-track-player:
+    :path: "../node_modules/react-native-track-player"
   react-native-vector-icons-ionicons:
     :path: "../node_modules/@react-native-vector-icons/ionicons"
   React-NativeModulesApple:
@@ -2773,12 +2781,12 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
-  fast_float: b32c788ed9c6a8c584d114d0047beda9664e7cc6
+  fast_float: 914e00b8b67cb8ba184a778c7bbc2e9fe98d37b3
   FBLazyVector: 941bef1c8eeabd9fe1f501e30a5220beee913886
-  fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
-  glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
-  hermes-engine: 35c763d57c9832d0eef764316ca1c4d043581394
-  RCT-Folly: 846fda9475e61ec7bcbf8a3fe81edfcaeb090669
+  fmt: b85d977e8fe789fd71c77123f9f4920d88c4d170
+  glog: 682871fb30f4a65f657bf357581110656ea90b08
+  hermes-engine: e3c59961118630332d6f4f9dbef0dece625f6b76
+  RCT-Folly: fb64616e25cfac1c3d10bfd784d68926325ae67f
   RCTDeprecation: c0ed3249a97243002615517dff789bf4666cf585
   RCTRequired: 58719f5124f9267b5f9649c08bf23d9aea845b23
   RCTTypeSafety: 4aefa8328ab1f86da273f08517f1f6b343f6c2cc
@@ -2813,6 +2821,7 @@ SPEC CHECKSUMS:
   React-microtasksnativemodule: 75b6604b667d297292345302cc5bfb6b6aeccc1b
   react-native-biometrics: 43ed5b828646a7862dbc7945556446be00798e7d
   react-native-safe-area-context: c6e2edd1c1da07bdce287fa9d9e60c5f7b514616
+  react-native-track-player: dd56f9948e03756a217c75e0a61aa04aab65b5a1
   react-native-vector-icons-ionicons: ad07e944a092a5cf71b8b569d8f5ce2bf674c415
   React-NativeModulesApple: 879fbdc5dcff7136abceb7880fe8a2022a1bd7c3
   React-oscompat: 93b5535ea7f7dff46aaee4f78309a70979bdde9d
@@ -2850,6 +2859,7 @@ SPEC CHECKSUMS:
   RNScreens: 0bbf16c074ae6bb1058a7bf2d1ae017f4306797c
   RNVectorIcons: 791f13226ec4a3fd13062eda9e892159f0981fae
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
+  SwiftAudioEx: f6aa653770f3a0d3851edaf8d834a30aee4a7646
   TextToSpeech: 89b239221ec378d213af422d14789a729705360b
   Yoga: a3ed390a19db0459bd6839823a6ac6d9c6db198d
 
